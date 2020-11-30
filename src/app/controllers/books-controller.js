@@ -13,6 +13,30 @@ async function createBook(req, res) {
     date_publication,
   } = req.body
 
+  if (!category_id || !user_id) {
+    return res.status(400).json({ error: 'user/category cant be blank'})
+  }
+
+  if (!isbn) {
+    return res.status(400).json({ error: 'isbn cant be blank'})
+  }
+
+  if (!price) {
+    return res.status(400).json({ error: 'price cant be blank'})
+  }
+
+  const existingIsbn = await Book.findOne({ where: { isbn }})
+
+  if (existingIsbn) {
+    return res.status(400).json({ error: 'book already exists'})
+  }
+
+  const existingBook = await Book.findOne({ where: {title} })
+
+  if (existingBook) {
+    return res.status(400).json({ error: 'book already exists'})
+  }
+
   const book = await Book.create({
     title,
     brief,
