@@ -3,9 +3,13 @@ import User from '../models/user';
 async function register(req, res) {
   const { email, description, name } = req.body;
 
-  const userExist = await User.findOne({ where: { email }})
+  const existingUser = await User.findOne({ where: { email }})
 
-  if (userExist) {
+  if (!name || !email) {
+    return res.status(400).json({ message: 'name/email cannot be blank' })
+  }
+
+  if (existingUser) {
     return res.status(400).json({ error: 'User already exists'})
   }
 
