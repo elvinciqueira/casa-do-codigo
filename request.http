@@ -13,3 +13,22 @@ Content-Type: application/json
 {
   "name": "Fantasy"
 }
+
+################
+
+POST http://localhost:3000/api/books
+Content-Type: application/json
+Date: {{$datetime rfc1123}}
+
+
+{
+  "title": "Livro1",
+  "date_publication": "{{$datetime '2021-02-12'}}",
+  "price": "50",
+  "isbn": "1234",
+  "brief": "resumo",
+  "summary": "resumo",
+  "pages": "200",
+  "user_id": 4,
+  "category_id": 1
+}

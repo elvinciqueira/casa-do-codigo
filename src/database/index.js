@@ -4,8 +4,9 @@ import databaseConfig from '../config/database';
 
 import User from '../app/models/user'
 import Category from '../app/models/category';
+import Book from '../app/models/book'
 
-const models = [User, Category];
+const models = [User, Category, Book];
 
 function createDatabase() {
   init()
