@@ -6,11 +6,13 @@ import logger from 'loglevel'
 
 import {getRoutes} from './routes'
 
+import './database'
+
 function startServer({port = process.env.PORT} = {}) {
   const app = express()
   // I mount my entire app to the /api route (or you could just do "/" if you want)
   app.use(express.json())
-  app.use('/', getRoutes())
+  app.use('/api', getRoutes())
   // add the generic error handler just in case errors are missed by middleware
   app.use(errorMiddleware)
   // I prefer dealing with promises. It makes testing easier, among other things.
