@@ -22,6 +22,10 @@ async function setBook(req, res) {
     ]
   })
 
+  if (!book) {
+    return res.status(404).json({ error: 'book not found'})
+  }
+
   return res.json(book)
 }
 
