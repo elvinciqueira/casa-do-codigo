@@ -2,6 +2,8 @@ import Book from '../models/book'
 import User from '../models/user'
 import Category from '../models/category'
 
+import bookView from '../views/books_views'
+
 async function setBook(req, res) {
   const { id } = req.params
 
@@ -26,7 +28,7 @@ async function setBook(req, res) {
 async function getBooks(req, res) {
   const books = await Book.findAll()
 
-  return res.json(books)
+  return res.json({ books: bookView.renderMany(books)})
 }
 
 async function createBook(req, res) {
