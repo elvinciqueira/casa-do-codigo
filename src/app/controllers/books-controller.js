@@ -1,4 +1,33 @@
 import Book from '../models/book'
+import User from '../models/user'
+import Category from '../models/category'
+
+async function setBook(req, res) {
+  const { id } = req.params
+
+  const book = await Book.findByPk(id, {
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: ['name', 'email']
+      },
+      {
+        model: Category,
+        as: 'category',
+        attributes: ['name']
+      }
+    ]
+  })
+
+  return res.json(book)
+}
+
+async function getBooks(req, res) {
+  const books = await Book.findAll()
+
+  return res.json(books)
+}
 
 async function createBook(req, res) {
   const { 
@@ -53,5 +82,7 @@ async function createBook(req, res) {
 }
 
 export {
-  createBook
+  createBook,
+  getBooks,
+  setBook
 }

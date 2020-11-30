@@ -32,3 +32,10 @@ Date: {{$datetime rfc1123}}
   "user_id": 4,
   "category_id": 1
 }
+
+################
+GET http://localhost:3000/api/books
+
+################
+
+GET http://localhost:3000/api/books/1
