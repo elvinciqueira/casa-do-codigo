@@ -20,6 +20,10 @@ class Order extends Model {
       foreignKey: 'book_id',
       as: 'book',
     });
+    this.belongsTo(models.Discount, {
+      foreignKey: 'discount_id',
+      as: 'discount',
+    });
   }
 }
 

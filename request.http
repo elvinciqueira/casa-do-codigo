@@ -67,6 +67,7 @@ POST http://localhost:3000/api/orders
 Content-Type: application/json
 
 {
+  "discount_id": 1,
   "book_id": 1,
   "itens": [
     {

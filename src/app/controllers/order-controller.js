@@ -7,6 +7,7 @@ import Discount from '../models/discount'
 async function registerOrder(req, res) {
   const {
     book_id,
+    discount_id,
     itens,
     country_id,
     state,
@@ -16,7 +17,7 @@ async function registerOrder(req, res) {
   const orderQuantity = itens
     .map(item => item.quantity)
     .reduce((accumulator, currentValue) => (accumulator + currentValue))
-  const orderPrice = orderQuantity * Number(book.price);
+  const orderPrice = (orderQuantity * Number(book.price));
   
   const existingCountry = await Country.findByPk(country_id, {
     include: [
@@ -32,8 +33,8 @@ async function registerOrder(req, res) {
     return res.status(400).json({ error: 'state cannot be blank'})
   } 
 
-
   await Order.create({ 
+    discount_id,
     book_id,
     total: orderPrice,
     itens,
