@@ -6,6 +6,7 @@ function getOrdersRoutes() {
   const router = express.Router()
 
   router.post('/', ordersValidator, orderController.registerOrder)
+  router.post('/discount', orderController.registerDiscount)
 
   return router
 }

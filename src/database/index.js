@@ -8,8 +8,9 @@ import Book from '../app/models/book'
 import Country from '../app/models/country'
 import State from '../app/models/state'
 import Order from '../app/models/order'
+import Discount from '../app/models/discount'
 
-const models = [User, Category, Book, Country, State, Order];
+const models = [User, Category, Book, Country, State, Order, Discount];
 
 function createDatabase() {
   init()

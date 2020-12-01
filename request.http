@@ -90,3 +90,16 @@ Content-Type: application/json
   "complement": "Eucaliptos",
   "cep": "09980400"
 }
+
+################
+
+POST http://localhost:3000/api/orders/discount
+Content-Type: application/json
+Date: {{$datetime rfc1123}}
+
+
+{
+  "code": "acabacate",
+  "percentage": 20,
+  "expiration": "{{$datetime '2021-02-12'}}"
+}
