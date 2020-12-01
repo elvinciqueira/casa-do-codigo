@@ -4,6 +4,32 @@ import Order from '../models/order'
 import Book from '../models/book'
 import Discount from '../models/discount'
 
+async function getOrder(req, res) {
+  const { id } = req.params
+  
+  const order = await Order.findByPk(id, { 
+    include: [
+      { 
+        model: Discount,
+        as: 'discount', 
+        attributes: ['percentage']
+      },
+      { 
+        model: Book,
+        as: 'book',
+      }
+    ]
+  })
+  
+  if (order.discount_id) {
+    const discount = order.total - (order.total * (order.discount.percentage / 100))
+    order.total = discount
+  }
+
+
+  return res.status(200).json(order)
+}
+
 async function registerOrder(req, res) {
   const {
     book_id,
@@ -71,4 +97,8 @@ async function registerDiscount(req, res) {
   return res.status(200).json(discount)
 }
 
-export { registerOrder, registerDiscount }
+export { 
+  registerOrder, 
+  registerDiscount, 
+  getOrder 
+}

@@ -94,6 +94,11 @@ Content-Type: application/json
 
 ################
 
+GET http://localhost:3000/api/orders/3
+Content-Type: application/json
+
+################
+
 POST http://localhost:3000/api/orders/discount
 Content-Type: application/json
 Date: {{$datetime rfc1123}}
