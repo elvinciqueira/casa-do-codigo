@@ -15,9 +15,9 @@ class Book extends Model {
       {
         sequelize,
       }
-    );
+    )
 
-    return this;
+    return this
   }
 
   static associate(models) {
@@ -28,8 +28,8 @@ class Book extends Model {
     this.belongsTo(models.User, {
       foreignKey: 'user_id',
       as: 'user',
-    });
+    })
   }
 }
 
-export default Book;
+export default Book
