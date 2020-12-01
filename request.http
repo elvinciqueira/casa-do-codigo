@@ -19,7 +19,7 @@ POST http://localhost:3000/api/states
 Content-Type: application/json
 
 {
-  "name": "São Paulo",
+  "name": "Ceará",
   "country_id": 1
 }
 
@@ -55,5 +55,38 @@ Date: {{$datetime rfc1123}}
 GET http://localhost:3000/api/books
 
 ################
+GET http://localhost:3000/api/countries
+
+################
 
 GET http://localhost:3000/api/books/1
+
+################
+
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "book_id": 1,
+  "itens": [
+    {
+      "idBook": 1,
+      "quantity": 2
+    },
+    {
+      "idBook": 2,
+      "quantity": 2
+    }
+  ],
+  "name": "teste",
+  "middleName": "name",
+  "email": "elvinciqueira@gmail.com",
+  "cpf_cnpj": "11111111111",
+  "country_id": 1,
+  "cellphone": "11111111",
+  "state": "São Paulo",
+  "address": "Estrada de baixo",
+  "city": "Diadema",
+  "complement": "Eucaliptos",
+  "cep": "09980400"
+}

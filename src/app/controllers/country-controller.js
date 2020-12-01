@@ -1,4 +1,19 @@
 import Country from '../models/country'
+import State from '../models/state'
+
+async function getCountries(req, res) {
+  const countries = await Country.findAll({ 
+    include: [
+      {
+        model: State,
+        as: 'state',
+        attributes: ['name']
+      }
+    ]
+  })
+
+  return res.json(countries)
+}
 
 async function createCountry(req, res) {
   const { name } = req.body
@@ -18,4 +33,4 @@ async function createCountry(req, res) {
   return res.json(country)
 }
 
-export { createCountry }
+export { createCountry, getCountries }

@@ -7,8 +7,9 @@ import Category from '../app/models/category';
 import Book from '../app/models/book'
 import Country from '../app/models/country'
 import State from '../app/models/state'
+import Order from '../app/models/order'
 
-const models = [User, Category, Book, Country, State];
+const models = [User, Category, Book, Country, State, Order];
 
 function createDatabase() {
   init()

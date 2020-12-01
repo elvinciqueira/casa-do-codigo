@@ -1,10 +1,11 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Country extends Model {
+class Order extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
+        total: Sequelize.DECIMAL,
+        itens: Sequelize.ARRAY(Sequelize.JSON),
       },
       {
         sequelize,
@@ -15,10 +16,11 @@ class Country extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.State, {
-      as: 'state',
+    this.belongsTo(models.Book, {
+      foreignKey: 'book_id',
+      as: 'book',
     });
   }
 }
 
-export default Country
+export default Order
