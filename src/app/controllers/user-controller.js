@@ -15,7 +15,7 @@ async function register(req, res) {
 
   const user = await User.create({ name, email, description })
 
-  return res.json(user)
+  return res.status(200).json(user)
 }
 
 export {register}
