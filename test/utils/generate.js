@@ -23,15 +23,15 @@ function buildCategory({...overrides} = {}) {
 
 function buildBook(overrides) {
   return {
-    id: getId(),
+    category_id: getId(),
+    user_id: getId(),
     title: faker.lorem.words(),
-    author: faker.name.findName(),
-    summary: faker.lorem.words(),
-    brief: faker.lorem.words(),
+    summary: faker.lorem.paragraph(),
+    brief: faker.lorem.paragraph(),
     pages: faker.random.number(400),
     price: faker.random.number(100),
     date_publication: faker.time.recent(),
-    isbn: faker.lorem.paragraph(),
+    isbn: faker.lorem.words(),
     ...overrides,
   }
 }

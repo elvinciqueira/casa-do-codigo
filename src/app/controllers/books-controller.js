@@ -26,13 +26,13 @@ async function setBook(req, res) {
     return res.status(404).json({ error: 'book not found'})
   }
 
-  return res.json(book)
+  return res.status(200).json(book)
 }
 
 async function getBooks(req, res) {
   const books = await Book.findAll()
 
-  return res.json({ books: bookView.renderMany(books)})
+  return res.status(200).json({ books: bookView.renderMany(books)})
 }
 
 async function createBook(req, res) {
@@ -48,8 +48,12 @@ async function createBook(req, res) {
     date_publication,
   } = req.body
 
-  if (!category_id || !user_id) {
-    return res.status(400).json({ error: 'user/category cant be blank'})
+  if (!user_id) {
+    return res.status(400).json({ error: 'author cant be blank'})
+  }
+
+  if (!category_id) {
+    return res.status(400).json({ error: 'category cant be blank'})
   }
 
   if (!isbn) {
@@ -60,13 +64,11 @@ async function createBook(req, res) {
     return res.status(400).json({ error: 'price cant be blank'})
   }
 
-  const existingIsbn = await Book.findOne({ where: { isbn }})
-
-  if (existingIsbn) {
-    return res.status(400).json({ error: 'book already exists'})
-  }
-
   const existingBook = await Book.findOne({ where: {title} })
+
+  if (isbn === (existingBook && existingBook.isbn)) {
+    return res.status(400).json({ error: 'isbn already in use'})
+  }
 
   if (existingBook) {
     return res.status(400).json({ error: 'book already exists'})
@@ -84,7 +86,7 @@ async function createBook(req, res) {
     date_publication
   })
 
-  return res.json(book)
+  return res.status(200).json(book)
 }
 
 export {

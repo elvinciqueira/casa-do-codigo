@@ -43,7 +43,7 @@ Date: {{$datetime rfc1123}}
   "title": "Livro3",
   "date_publication": "{{$datetime '2021-02-12'}}",
   "price": "50",
-  "isbn": "12345",
+  "isbn": "test-isbn",
   "brief": "resumo",
   "summary": "resumo",
   "pages": "200",
