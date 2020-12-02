@@ -11,6 +11,8 @@ beforeEach(() => {
 test('createBook returns 200 with req.book', async () => {
   const book = buildBook()
 
+  delete book.id
+
   Book.create.mockResolvedValueOnce(book)
 
   const req = buildReq({body: book})
@@ -181,6 +183,46 @@ test('createBook returns 400 isbn already in use', async () => {
     Array [
       Object {
         "error": "isbn already in use",
+      },
+    ]
+  `)
+  expect(res.json).toHaveBeenCalledTimes(1)
+})
+
+test('setBook return 200 req.book', async () => {
+  const book = buildBook()
+
+  Book.findByPk.mockResolvedValueOnce(book.id)
+
+  const req = buildBook({params: {id: book.id}})
+  const res = buildRes()
+
+  await bookController.setBook(req, res)
+
+  expect(Book.findByPk).toBeCalledTimes(1)
+
+  expect(res.status).toBeCalledWith(200)
+  expect(res.status).toBeCalledTimes(1)
+
+  expect(res.json).toBeCalledWith(book.id)
+  expect(res.json).toHaveBeenCalledTimes(1)
+})
+
+test('setBook return 400 book not found', async () => {
+  const req = buildReq()
+  const res = buildRes()
+
+  await bookController.setBook(req, res)
+
+  expect(Book.findByPk).toBeCalledTimes(1)
+
+  expect(res.status).toHaveBeenCalledWith(404)
+  expect(res.status).toHaveBeenCalledTimes(1)
+
+  expect(res.json.mock.calls[0]).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "error": "book not found",
       },
     ]
   `)

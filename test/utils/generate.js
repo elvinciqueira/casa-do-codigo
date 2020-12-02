@@ -23,6 +23,7 @@ function buildCategory({...overrides} = {}) {
 
 function buildBook(overrides) {
   return {
+    id: getId(),
     category_id: getId(),
     user_id: getId(),
     title: faker.lorem.words(),
