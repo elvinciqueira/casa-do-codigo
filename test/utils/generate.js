@@ -14,6 +14,13 @@ function buildUser({...overrides} = {}) {
   }
 }
 
+function buildCategory({...overrides} = {}) {
+  return {
+    name: faker.lorem.words(),
+    ...overrides
+  }
+}
+
 function buildBook(overrides) {
   return {
     id: getId(),
@@ -29,8 +36,8 @@ function buildBook(overrides) {
   }
 }
 
-function buildReq({user = buildUser(), ...overrides} = {}) {
-  const req = {user, body: {}, params: {}, ...overrides}
+function buildReq({...overrides} = {}) {
+  const req = {body: {}, params: {}, ...overrides}
   return req
 }
 
@@ -52,5 +59,6 @@ export {
   buildRes,
   buildReq,
   buildNext,
-  buildUser
+  buildUser,
+  buildCategory
 }

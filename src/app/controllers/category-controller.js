@@ -16,7 +16,7 @@ async function createCategory(req, res) {
 
   const category = await Category.create({ name })
 
-  return res.json(category)
+  return res.status(200).json(category)
 }
 
 export { createCategory }
