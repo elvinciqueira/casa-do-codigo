@@ -101,13 +101,13 @@ Content-Type: application/json
 
 ################
 
-POST http://localhost:3000/api/orders/discount
+POST http://localhost:3000/api/order/discount
 Content-Type: application/json
 Date: {{$datetime rfc1123}}
 
 
 {
-  "code": "acabacate",
+  "code": "code-123",
   "percentage": 20,
   "expiration": "{{$datetime '2021-02-12'}}"
 }

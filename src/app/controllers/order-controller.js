@@ -1,5 +1,3 @@
-import Discount from '../models/discount'
-
 import * as orderDB from '../db/orders'
 import * as bookDB from '../db/books'
 import * as countryDB from '../db/countries'
@@ -13,7 +11,6 @@ async function getOrder(req, res) {
     const discount = order.total - (order.total * (order.discount.percentage / 100))
     order.total = discount
   }
-
 
   return res.status(200).json(order)
 }
@@ -45,34 +42,6 @@ async function registerOrder(req, res) {
   return res.status(201).json({ orderId: 'endereco-compra'})
 }
 
-async function registerDiscount(req, res) {
-  const { code, percentage, expiration } = req.body
-
-  if (!code) {
-    return res.status(400).json({ error: 'Code is invalid'})
-  }
-
-  if (!percentage || percentage < 0) {
-    return res.status(400).json({ error: 'percetage must be greater than 0'})
-  }
-
-  const existingDiscount = await Discount.findOne({
-    where: { code }
-  })
-
-  if (existingDiscount) {
-    return res.status(400).json({ error: 'code in use'})
-  }
-
-  const discount = await Discount.create({ 
-    code, 
-    percentage, 
-    expiration
-  })
-
-  return res.status(200).json(discount)
-}
-
 function calculateBookPrice(itens, book) {
   const itemQuantity = itens
     .map(item => item.quantity)
@@ -84,6 +53,5 @@ function calculateBookPrice(itens, book) {
 
 export { 
   registerOrder, 
-  registerDiscount, 
   getOrder 
 }

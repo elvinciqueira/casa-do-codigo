@@ -6,7 +6,6 @@ function getOrdersRoutes() {
   const router = express.Router()
 
   router.post('/', ordersValidator, orderController.registerOrder)
-  router.post('/', ordersValidator, orderController.registerOrder)
   router.get('/:id', orderController.getOrder)
 
   return router

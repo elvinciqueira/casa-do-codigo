@@ -6,6 +6,7 @@ import getBooksRoutes from './books'
 import getCountriesRoutes from './countries'
 import getStatesRoutes from './states'
 import getOrdersRoutes from './orders'
+import getDiscountRoutes from './discounts'
 
 function getRoutes() {
   const router = express.Router()
@@ -16,6 +17,7 @@ function getRoutes() {
   router.use('/countries', getCountriesRoutes())
   router.use('/states', getStatesRoutes())
   router.use('/orders', getOrdersRoutes())
+  router.use('/order/discount', getDiscountRoutes())
 
   return router
 }
