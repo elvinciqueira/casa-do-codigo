@@ -3,10 +3,6 @@ import * as userDB from '../db/users'
 async function register(req, res) {
   const { email, description, name } = req.body;
 
-  if (!name || !email) {
-    return res.status(400).json({ message: 'name/email cannot be blank' })
-  }
-
   const existingUser = await userDB.query({email, name})
 
   if (existingUser) {
