@@ -1,26 +1,11 @@
-import Book from '../models/book'
-import User from '../models/user'
-import Category from '../models/category'
+import * as bookDB from '../db/books'
 
 import bookView from '../views/books_views'
 
 async function setBook(req, res) {
   const { id } = req.params
 
-  const book = await Book.findByPk(id, {
-    include: [
-      {
-        model: User,
-        as: 'user',
-        attributes: ['name', 'email']
-      },
-      {
-        model: Category,
-        as: 'category',
-        attributes: ['name']
-      }
-    ]
-  })
+  const book = await bookDB.readById(id)
 
   if (!book) {
     return res.status(404).json({ error: 'book not found'})
@@ -30,7 +15,7 @@ async function setBook(req, res) {
 }
 
 async function getBooks(req, res) {
-  const books = await Book.findAll()
+  const books = await bookDB.find()
 
   return res.status(200).json({ books: bookView.renderMany(books)})
 }
@@ -64,7 +49,7 @@ async function createBook(req, res) {
     return res.status(400).json({ error: 'price cant be blank'})
   }
 
-  const existingBook = await Book.findOne({ where: {title} })
+  const existingBook = await bookDB.query({title})
 
   if (isbn === (existingBook && existingBook.isbn)) {
     return res.status(400).json({ error: 'isbn already in use'})
@@ -74,7 +59,7 @@ async function createBook(req, res) {
     return res.status(400).json({ error: 'book already exists'})
   }
 
-  const book = await Book.create({
+  const book = await bookDB.insert({
     title,
     brief,
     user_id,

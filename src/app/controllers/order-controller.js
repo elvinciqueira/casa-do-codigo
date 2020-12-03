@@ -1,25 +1,13 @@
-import Country from '../models/country'
-import State from '../models/state'
-import Order from '../models/order'
-import Book from '../models/book'
 import Discount from '../models/discount'
+
+import * as orderDB from '../db/orders'
+import * as bookDB from '../db/books'
+import * as countryDB from '../db/countries'
 
 async function getOrder(req, res) {
   const { id } = req.params
   
-  const order = await Order.findByPk(id, { 
-    include: [
-      { 
-        model: Discount,
-        as: 'discount', 
-        attributes: ['percentage']
-      },
-      { 
-        model: Book,
-        as: 'book',
-      }
-    ]
-  })
+  const order = await orderDB.readById(id)
   
   if (order.discount_id) {
     const discount = order.total - (order.total * (order.discount.percentage / 100))
@@ -39,23 +27,15 @@ async function registerOrder(req, res) {
     state,
   } = req.body
 
-  const book = await Book.findByPk(book_id)
+  const book = await bookDB.readById(book_id)
 
-  const existingCountry = await Country.findByPk(country_id, {
-    include: [
-      {
-        model: State,
-        as: 'state',
-        attributes: ['name']
-      }
-    ]
-  })
+  const existingCountry = await countryDB.readById(country_id)
 
   if (existingCountry.state && !state) {
     return res.status(400).json({ error: 'state cannot be blank'})
   } 
 
-  await Order.create({ 
+  await orderDB.insert({ 
     discount_id,
     book_id,
     total: calculateBookPrice(itens, book),

@@ -1,4 +1,4 @@
-import State from '../models/state'
+import * as stateDB from '../db/states'
 
 async function createState(req, res) {
   const { name, country_id } = req.body
@@ -11,13 +11,13 @@ async function createState(req, res) {
     return res.status(400).json({ error: 'country cannot be blank'})
   }
 
-  const existingState = await State.findOne({ where: { name }})
+  const existingState = await stateDB.query({name})
 
   if (existingState) {
     return res.status(400).json({ error: 'State already exists'})
   }
 
-  const state = await State.create({ name, country_id })
+  const state = await stateDB.insert({ name, country_id })
 
   return res.status(200).json(state)
 }
