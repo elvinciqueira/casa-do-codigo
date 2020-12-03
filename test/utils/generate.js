@@ -21,6 +21,21 @@ function buildCategory({...overrides} = {}) {
   }
 }
 
+function buildCountry({...overrides} = {}) {
+  return {
+    name: faker.lorem.words(),
+    ...overrides
+  }
+}
+
+function buildState({...overrides} = {}) {
+  return {
+    name: faker.lorem.words(),
+    country_id: getId(),
+    ...overrides
+  }
+}
+
 function buildBook(overrides) {
   return {
     id: getId(),
@@ -61,5 +76,7 @@ export {
   buildReq,
   buildNext,
   buildUser,
-  buildCategory
+  buildCategory,
+  buildCountry,
+  buildState
 }

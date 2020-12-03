@@ -30,7 +30,7 @@ async function createCountry(req, res) {
 
   const country = await Country.create({ name })
 
-  return res.json(country)
+  return res.status(200).json(country)
 }
 
 export { createCountry, getCountries }
