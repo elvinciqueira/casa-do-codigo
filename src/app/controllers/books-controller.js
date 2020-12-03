@@ -33,22 +33,6 @@ async function createBook(req, res) {
     date_publication,
   } = req.body
 
-  if (!user_id) {
-    return res.status(400).json({ error: 'author cant be blank'})
-  }
-
-  if (!category_id) {
-    return res.status(400).json({ error: 'category cant be blank'})
-  }
-
-  if (!isbn) {
-    return res.status(400).json({ error: 'isbn cant be blank'})
-  }
-
-  if (!price) {
-    return res.status(400).json({ error: 'price cant be blank'})
-  }
-
   const existingBook = await bookDB.query({title})
 
   if (isbn === (existingBook && existingBook.isbn)) {
