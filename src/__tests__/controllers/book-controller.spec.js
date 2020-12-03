@@ -1,8 +1,8 @@
 import {buildRes, buildReq, buildBook} from '../../../test/utils/generate'
 import * as bookController from '../../app/controllers/books-controller'
-import Book from '../../app/models/book'
+import * as bookDB from '../../app/db/books'
 
-jest.mock('../../app/models/book')
+jest.mock('../../app/db/books')
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -13,15 +13,15 @@ test('createBook returns 200 with req.book', async () => {
 
   delete book.id
 
-  Book.create.mockResolvedValueOnce(book)
+  bookDB.insert.mockResolvedValueOnce(book)
 
   const req = buildReq({body: book})
   const res = buildRes()
 
   await bookController.createBook(req, res)
 
-  expect(Book.create).toHaveBeenCalledWith(book)
-  expect(Book.create).toHaveBeenCalledTimes(1)
+  expect(bookDB.insert).toHaveBeenCalledWith(book)
+  expect(bookDB.insert).toHaveBeenCalledTimes(1)
 
   expect(res.status).toHaveBeenCalledWith(200)
   expect(res.status).toHaveBeenCalledTimes(1)
@@ -30,122 +30,22 @@ test('createBook returns 200 with req.book', async () => {
   expect(res.json).toHaveBeenCalledTimes(1)
 })
 
-test('createBook returns 400 author cannot be blank', async () => {
-  const book = buildBook()
-
-  delete book.user_id
-
-  const req = buildReq({body: book})
-  const res = buildRes()
-
-  await bookController.createBook(req, res)
-
-  expect(Book.create).not.toHaveBeenCalled()
-
-  expect(res.status).toHaveBeenCalledWith(400)
-  expect(res.status).toHaveBeenCalledTimes(1)
-
-  expect(res.json.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "error": "author cant be blank",
-      },
-    ]
-  `)
-  expect(res.json).toHaveBeenCalledTimes(1)
-})
-
-test('createBook returns 400 category cannot be blank', async () => {
-  const book = buildBook()
-
-  delete book.category_id
-
-  const req = buildReq({body: book})
-  const res = buildRes()
-
-  await bookController.createBook(req, res)
-
-  expect(Book.create).not.toHaveBeenCalled()
-
-  expect(res.status).toHaveBeenCalledWith(400)
-  expect(res.status).toHaveBeenCalledTimes(1)
-
-  expect(res.json.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "error": "category cant be blank",
-      },
-    ]
-  `)
-  expect(res.json).toHaveBeenCalledTimes(1)
-})
-
-test('createBook returns 400 isbn cannot be blank', async () => {
-  const book = buildBook()
-
-  delete book.isbn
-
-  const req = buildReq({body: book})
-  const res = buildRes()
-
-  await bookController.createBook(req, res)
-
-  expect(Book.create).not.toHaveBeenCalled()
-
-  expect(res.status).toHaveBeenCalledWith(400)
-  expect(res.status).toHaveBeenCalledTimes(1)
-
-  expect(res.json.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "error": "isbn cant be blank",
-      },
-    ]
-  `)
-  expect(res.json).toHaveBeenCalledTimes(1)
-})
-
-test('createBook returns 400 price cannot be blank', async () => {
-  const book = buildBook()
-
-  delete book.price
-
-  const req = buildReq({body: book})
-  const res = buildRes()
-
-  await bookController.createBook(req, res)
-
-  expect(Book.create).not.toHaveBeenCalled()
-
-  expect(res.status).toHaveBeenCalledWith(400)
-  expect(res.status).toHaveBeenCalledTimes(1)
-
-  expect(res.json.mock.calls[0]).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "error": "price cant be blank",
-      },
-    ]
-  `)
-  expect(res.json).toHaveBeenCalledTimes(1)
-})
 
 test('createBook returns 400 book already exists', async () => {
   const book = buildBook()
   const {title} = book
 
-  Book.create.mockResolvedValueOnce(book)
-  Book.findOne.mockResolvedValueOnce({where: {title}})
+  bookDB.query.mockResolvedValueOnce({title})
 
   const req = buildReq({body: book})
   const res = buildRes()
 
   await bookController.createBook(req, res)
 
-  expect(Book.create).not.toHaveBeenCalled()
+  expect(bookDB.insert).not.toHaveBeenCalled()
 
-  expect(Book.findOne).toHaveBeenCalledWith({where: {title}})
-  expect(Book.findOne).toHaveBeenCalledTimes(1)
+  expect(bookDB.query).toHaveBeenCalledWith({title})
+  expect(bookDB.query).toHaveBeenCalledTimes(1)
 
   expect(res.status).toHaveBeenCalledWith(400)
   expect(res.status).toHaveBeenCalledTimes(1)
@@ -167,14 +67,14 @@ test('createBook returns 400 isbn already in use', async () => {
     isbn: book.isbn,
   }
 
-  Book.findOne.mockResolvedValueOnce(existingBook)
+  bookDB.query.mockResolvedValueOnce(existingBook)
 
   const req = buildReq({body: book})
   const res = buildRes()
 
   await bookController.createBook(req, res)
 
-  expect(Book.create).not.toHaveBeenCalled()
+  expect(bookDB.insert).not.toHaveBeenCalled()
 
   expect(res.status).toHaveBeenCalledWith(400)
   expect(res.status).toHaveBeenCalledTimes(1)
@@ -192,14 +92,14 @@ test('createBook returns 400 isbn already in use', async () => {
 test('setBook return 200 req.book', async () => {
   const book = buildBook()
 
-  Book.findByPk.mockResolvedValueOnce(book.id)
+  bookDB.readById.mockResolvedValueOnce(book.id)
 
   const req = buildBook({params: {id: book.id}})
   const res = buildRes()
 
   await bookController.setBook(req, res)
 
-  expect(Book.findByPk).toBeCalledTimes(1)
+  expect(bookDB.readById).toBeCalledTimes(1)
 
   expect(res.status).toBeCalledWith(200)
   expect(res.status).toBeCalledTimes(1)
@@ -213,8 +113,6 @@ test('setBook return 400 book not found', async () => {
   const res = buildRes()
 
   await bookController.setBook(req, res)
-
-  expect(Book.findByPk).toBeCalledTimes(1)
 
   expect(res.status).toHaveBeenCalledWith(404)
   expect(res.status).toHaveBeenCalledTimes(1)
