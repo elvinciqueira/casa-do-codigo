@@ -40,11 +40,7 @@ async function registerOrder(req, res) {
   } = req.body
 
   const book = await Book.findByPk(book_id)
-  const orderQuantity = itens
-    .map(item => item.quantity)
-    .reduce((accumulator, currentValue) => (accumulator + currentValue))
-  const orderPrice = (orderQuantity * Number(book.price));
-  
+
   const existingCountry = await Country.findByPk(country_id, {
     include: [
       {
@@ -62,7 +58,7 @@ async function registerOrder(req, res) {
   await Order.create({ 
     discount_id,
     book_id,
-    total: orderPrice,
+    total: calculateTotal(itens, book),
     itens,
   })
 
@@ -95,6 +91,15 @@ async function registerDiscount(req, res) {
   })
 
   return res.status(200).json(discount)
+}
+
+function calculateTotal(itens, book) {
+  const itemQuantity = itens
+    .map(item => item.quantity)
+    .reduce((accumulator, currentValue) => (accumulator + currentValue))
+  const result = (itemQuantity * Number(book.price));
+
+  return result
 }
 
 export { 

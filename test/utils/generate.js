@@ -52,6 +52,29 @@ function buildBook(overrides) {
   }
 }
 
+function buildOrder({...overrides} = {}) {
+  return {
+    book_id: getId(),
+    discount_id: getId(),
+    itens: [
+      {
+        idBook: getId(),
+        quantity: faker.random.number(10)
+      }
+    ],
+    ...overrides
+  }
+}
+
+function buildDiscount({...overrides} = {}) {
+  return {
+    discount_id: getId(),
+    percentage: faker.random.number(100),
+    expiration: faker.date.future(),
+    ...overrides
+  }
+}
+
 function buildReq({...overrides} = {}) {
   const req = {body: {}, params: {}, ...overrides}
   return req
@@ -78,5 +101,7 @@ export {
   buildUser,
   buildCategory,
   buildCountry,
-  buildState
+  buildState,
+  buildOrder,
+  buildDiscount,
 }
