@@ -8,7 +8,7 @@ async function createState(req, res) {
   }
 
   if (!country_id) {
-    return res.json(400).json({ error: 'country cannot be blank'})
+    return res.status(400).json({ error: 'country cannot be blank'})
   }
 
   const existingState = await State.findOne({ where: { name }})
@@ -19,7 +19,7 @@ async function createState(req, res) {
 
   const state = await State.create({ name, country_id })
 
-  return res.json(state)
+  return res.status(200).json(state)
 }
 
 export { createState }
