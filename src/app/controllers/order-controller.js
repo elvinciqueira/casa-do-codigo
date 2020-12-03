@@ -58,7 +58,7 @@ async function registerOrder(req, res) {
   await Order.create({ 
     discount_id,
     book_id,
-    total: calculateTotal(itens, book),
+    total: calculateBookPrice(itens, book),
     itens,
   })
 
@@ -93,7 +93,7 @@ async function registerDiscount(req, res) {
   return res.status(200).json(discount)
 }
 
-function calculateTotal(itens, book) {
+function calculateBookPrice(itens, book) {
   const itemQuantity = itens
     .map(item => item.quantity)
     .reduce((accumulator, currentValue) => (accumulator + currentValue))
