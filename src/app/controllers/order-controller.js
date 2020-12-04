@@ -14,7 +14,6 @@ async function getOrder(req, res) {
 async function registerOrder(req, res) {
   const {
     discount_id,
-    itens,
     country_id,
     state,
     total,
@@ -54,7 +53,7 @@ async function registerOrder(req, res) {
   const { id } = await orderDB.insert({ 
     discount_id,
     total, 
-    itens,
+    itens: order.itens,
   })
 
   await purchaseDB.insert({ 

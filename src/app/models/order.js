@@ -14,6 +14,13 @@ class Order extends Model {
 
     return this
   }
+
+  static associate(models) {
+    this.belongsTo(models.Discount, {
+      foreignKey: 'discount_id',
+      as: 'discount',
+    });
+  }
 }
 
 export default Order
