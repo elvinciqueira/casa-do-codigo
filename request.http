@@ -71,7 +71,7 @@ Content-Type: application/json
 {
   "discount_id": 1,
   "name": "teste",
-  "total": 250,
+  "total": 150,
   "middle_name": "name",
   "email": "elvinciqueira@gmail.com",
   "cpf_cnpj": "11111111111",
@@ -86,11 +86,11 @@ Content-Type: application/json
     "itens": [
       {
         "idBook": 1,
-        "quantity": 2
+        "quantity": 1
       },
       {
         "idBook": 2,
-        "quantity": 3
+        "quantity": 2
       }
     ]
   }

@@ -28,6 +28,12 @@ async function registerOrder(req, res) {
     return res.status(400).json({ error: 'state cannot be blank'})
   }
 
+  order.itens.forEach(({ quantity }) => {
+    if (!quantity ||quantity < 0) {
+      return res.status(400).json({ error: 'quantity must be greater than 0'})
+    }
+  })
+
   let quantity = 
     order.itens
     .map(item => item.quantity)
@@ -45,19 +51,18 @@ async function registerOrder(req, res) {
     return res.status(400).json({ error: 'total must be less than all book price'})
   }
 
-  const order = await orderDB.insert({ 
+  const { id } = await orderDB.insert({ 
     discount_id,
-    book_id,
     total, 
     itens,
   })
 
   await purchaseDB.insert({ 
-    order_id: order.id,
+    order_id: id,
     ...req.body
   })
 
-  return res.status(201).json({ orderId: price})
+  return res.status(201).json({ orderId: 'endereco-compra'})
 }
 
 
