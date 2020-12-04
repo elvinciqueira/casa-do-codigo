@@ -8,13 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      book_id: {
-        type: Sequelize.INTEGER,
-        references: { model: 'Books', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-        allowNull: false,
-      },
       total: {
         type: Sequelize.DECIMAL,
       },

@@ -42,14 +42,14 @@ Date: {{$datetime rfc1123}}
 
 
 {
-  "title": "Livro3",
+  "title": "Livro2",
   "date_publication": "{{$datetime '2021-02-12'}}",
   "price": "50",
   "isbn": "test-isbn",
   "brief": "resumo",
   "summary": "resumo",
   "pages": "200",
-  "user_id": 4,
+  "user_id": 1,
   "category_id": 1
 }
 
@@ -70,19 +70,9 @@ Content-Type: application/json
 
 {
   "discount_id": 1,
-  "book_id": 1,
-  "itens": [
-    {
-      "idBook": 1,
-      "quantity": 2
-    },
-    {
-      "idBook": 2,
-      "quantity": 2
-    }
-  ],
   "name": "teste",
-  "middleName": "name",
+  "total": 200,
+  "middle_name": "name",
   "email": "elvinciqueira@gmail.com",
   "cpf_cnpj": "11111111111",
   "country_id": 1,
@@ -91,7 +81,23 @@ Content-Type: application/json
   "address": "Estrada de baixo",
   "city": "Diadema",
   "complement": "Eucaliptos",
-  "cep": "09980400"
+  "cep": "09980400",
+  "order": {
+    "itens": [
+      {
+        "idBook": 1,
+        "quantity": 2
+      },
+      {
+        "idBook": 2,
+        "quantity": 2
+      },
+      {
+        "idBook": 3,
+        "quantity": 2
+      }
+    ]
+  }
 }
 
 ################

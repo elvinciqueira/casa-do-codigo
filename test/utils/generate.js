@@ -56,6 +56,7 @@ function buildOrder({...overrides} = {}) {
   return {
     book_id: getId(),
     discount_id: getId(),
+    total: faker.random.number(100),
     itens: [
       {
         idBook: getId(),

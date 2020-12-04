@@ -14,17 +14,6 @@ class Order extends Model {
 
     return this
   }
-
-  static associate(models) {
-    this.belongsTo(models.Book, {
-      foreignKey: 'book_id',
-      as: 'book',
-    });
-    this.belongsTo(models.Discount, {
-      foreignKey: 'discount_id',
-      as: 'discount',
-    });
-  }
 }
 
 export default Order
