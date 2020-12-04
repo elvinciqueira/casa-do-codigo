@@ -61,15 +61,15 @@ function calculateOrderQuantity(aOrder) {
 
 async function calculateTotalPurchase(aOrder, aQuantity) {
   const books = await bookDB.find()
-  let price = 0
+  let result = 0
 
   books.filter((book, index) => {
     if (book.id === aOrder.itens[index].idBook) {
-      price = book.price * aQuantity
+      result = book.price * aQuantity
     }
   })
 
-  return price
+  return result
 }
 
 
