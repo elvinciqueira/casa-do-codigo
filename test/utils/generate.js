@@ -68,7 +68,7 @@ function buildOrder({...overrides} = {}) {
 
 function buildDiscount({...overrides} = {}) {
   return {
-    discount_id: getId(),
+    code: getId(),
     percentage: faker.random.number(100),
     expiration: faker.date.future(),
     ...overrides
