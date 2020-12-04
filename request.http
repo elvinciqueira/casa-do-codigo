@@ -71,7 +71,7 @@ Content-Type: application/json
 {
   "discount_id": 1,
   "name": "teste",
-  "total": 150,
+  "total": 550,
   "middle_name": "name",
   "email": "elvinciqueira@gmail.com",
   "cpf_cnpj": "11111111111",
