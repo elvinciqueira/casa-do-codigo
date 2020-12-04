@@ -7,7 +7,6 @@ function getBooksRoutes() {
 
   router.post('/', bookValidator, booksController.createBook)
   router.get('/', booksController.getBooks)
-  router.get('/:id', booksController.setBook)
 
   return router
 }

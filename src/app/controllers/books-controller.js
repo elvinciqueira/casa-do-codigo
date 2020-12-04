@@ -2,16 +2,14 @@ import * as bookDB from '../db/books'
 
 import bookView from '../views/books_views'
 
-async function setBook(req, res) {
-  const { id } = req.params
-
+async function setBook(id) {
   const book = await bookDB.readById(id)
 
   if (!book) {
     return res.status(404).json({ error: 'book not found'})
   }
 
-  return res.status(200).json(book)
+  return book
 }
 
 async function getBooks(req, res) {
