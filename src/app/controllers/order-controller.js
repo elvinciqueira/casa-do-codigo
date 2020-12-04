@@ -32,23 +32,22 @@ async function registerOrder(req, res) {
     }
   })
   
-  let quantity = calculateOrderQuantity(order)
-  let purchasePrice = await calculateTotalPurchase(order, quantity)
+  let purchaseTotal = await calculateTotalPurchase(order, calculateOrderQuantity(order))
 
-  if (total > purchasePrice) {
+  if (total > purchaseTotal) {
     return res.status(400).json({ error: 'total must be less than all book price'})
   }
 
-  // const { id } = await orderDB.insert({ 
-  //   discount_id,
-  //   total, 
-  //   itens: order.itens,
-  // })
+  const { id } = await orderDB.insert({ 
+    discount_id,
+    total, 
+    itens: order.itens,
+  })
 
-  // await purchaseDB.insert({ 
-  //   order_id: id,
-  //   ...req.body
-  // })
+  await purchaseDB.insert({ 
+    order_id: id,
+    ...req.body
+  })
 
   return res.status(201).json({ orderId: 'endereco-compra'})
 }
@@ -60,8 +59,8 @@ function calculateOrderQuantity(aOrder) {
 }
 
 async function calculateTotalPurchase(aOrder, aQuantity) {
-  const books = await bookDB.find()
   let result = 0
+  const books = await bookDB.find()
 
   books.filter((book, index) => {
     if (book.id === aOrder.itens[index].idBook) {
