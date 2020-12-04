@@ -26,15 +26,19 @@ async function registerOrder(req, res) {
     return res.status(400).json({ error: 'state cannot be blank'})
   }
   
-  order.itens.forEach(({ quantity }) => {
+  order.itens.forEach(({ quantity, idBook }) => {
     if (!quantity ||quantity < 0) {
       return res.status(400).json({ error: 'quantity must be greater than 0'})
     }
+
+    if (!idBook) {
+      return res.status(400).json({ error: 'a book is required'})
+    }
   })
   
-  let purchaseTotal = await calculateTotalPurchase(order, calculateOrderQuantity(order))
+  let orderTotal = await calculateOrderTotal(order, calculateOrderQuantity(order))
 
-  if (total > purchaseTotal) {
+  if (total > orderTotal) {
     return res.status(400).json({ error: 'total must be less than all book price'})
   }
 
@@ -58,7 +62,7 @@ function calculateOrderQuantity(aOrder) {
       .reduce((acc, value) => acc + value)
 }
 
-async function calculateTotalPurchase(aOrder, aQuantity) {
+async function calculateOrderTotal(aOrder, aQuantity) {
   let result = 0
   const books = await bookDB.find()
 
